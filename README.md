@@ -1,29 +1,31 @@
-
 # containers-with-sboms
 
-## Overview
+This project demonstrates how to use a series of tools to build container images with corresponding Software Bill Of Materials, or SBOM. The tools highlight the use of container basics, an SBOM generation tool, and an OCI compatible registry. The end result is an end-to-end (albeit, hacky) solution to integrate SBOM generation and distribution into the container ecosystem.
 
-## Try it out
+## Quick Start
 
-### Prerequisites
+If you have Virtual Box and Vagrant installed, all you have to do is clone this project, cd into it, and run:
+```
+vagrant up
+vagrant ssh
+```
 
-* Prereq 1
-* Prereq 2
-* Prereq 3
+Then you can follow along with the demo.
 
-### Build & Run
+## Ingredients
 
-1. Step 1
-2. Step 2
-3. Step 3
+You may view the `bootstrap.sh` script to see how to provision a single node with all the tools. Here, I am using a debian/bullseye Vagrant box as it is the easiest seed for creating a base container rootfs. Your Mileage May Vary.
 
-## Documentation
+Overall, you will need the following tools: 
+- Install python3, pip3, buildah, and ORAS (untar the binary from github release and place it somewhere where the system can find it)
+- Install tern using pip3 (pip3 install tern)
+- Obtain an OS rootfs (I used debootstrap to create one)
+- Locate an OCI compatible registry (I spun up a distribution/docker registry)
 
 ## Contributing
 
-The containers-with-sboms project team welcomes contributions from the community. Before you start working with containers-with-sboms, please
-read our [Developer Certificate of Origin](https://cla.vmware.com/dco). All contributions to this repository must be
-signed as described on that page. Your signature certifies that you wrote the patch or have the right to pass it on
-as an open-source patch. For more detailed information, refer to [CONTRIBUTING.md](CONTRIBUTING.md).
+I don't expect contributions to this project, but if you feel it is missing some key information or some misconceptions, feel free to submit a PR! For more details on how to contribute, refer to [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
+
+This project is licensed under the BSD-2-Clause license. Please refer to the [LICENSE](LICENSE) and [NOTICE](NOTICE) files for more information.
