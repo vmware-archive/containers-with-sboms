@@ -36,3 +36,9 @@ podman run -d -p 5000:5000 --restart always --name registry registry:2.7.1
 
 # Add /home/vagrant/.local/bin and /usr/sbin to $PATH
 echo "export PATH=/home/vagrant/.local/bin:/usr/sbin:$PATH" >> /home/vagrant/.bashrc
+
+# Create a debian rootfs
+mkdir debian
+sudo debootstrap --variant=minbase stable debian http://deb.debian.org/debian/
+sudo tar cf debian.tar debian
+mv debian.tar containers-with-sboms

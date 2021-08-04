@@ -10,7 +10,15 @@ vagrant up
 vagrant ssh
 ```
 
-Then you can follow along with the demo.
+_Note: depending on how powerful your computer is, bringing up the Vagrant box can take a long time. Perhaps go make yourself a nice cup of tea and come back._
+
+Once you are in the vagrant box you may:
+```
+cd containers-with-sboms
+./base_container.sh
+```
+
+This should create a container called `debian:10` and a file called `sbom1`.
 
 ## Ingredients
 
