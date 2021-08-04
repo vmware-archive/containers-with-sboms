@@ -12,13 +12,25 @@ vagrant ssh
 
 _Note: depending on how powerful your computer is, bringing up the Vagrant box can take a long time. Perhaps go make yourself a nice cup of tea and come back._
 
-Once you are in the vagrant box you may:
+Once you are in the vagrant box, spin up an instance of the distribution registry:
 ```
-cd containers-with-sboms
-./base_container.sh
+$ podman pull registry:2.7.1
+$ podman run -d -p 5000:5000 --name registry registry:2.7.1
 ```
 
-This should create a container called `debian:10` and a file called `sbom1`.
+You can then build the container and corresponding sbom:
+```
+$ cd containers-with-sboms
+$ ./base_container.sh
+```
+
+This should create a container called `localhost:5000/debian:10` and a file called `sbom1`.
+
+Finally, you can publish the container and sbom:
+```
+$ buildah push --tls-verify=false localhost:5000/debian:10
+$ oras push localhost:5000/debian-sbom:10 sbom1
+```
 
 ## Ingredients
 
@@ -29,6 +41,14 @@ Overall, you will need the following tools:
 - Install tern using pip3 (pip3 install tern)
 - Obtain an OS rootfs (I used debootstrap to create one)
 - Locate an OCI compatible registry (I spun up a distribution/docker registry)
+
+## Under The Hood
+
+1. `base_container.sh` creates a container from scratch using buildah.
+2. `buildah unshare` will mount the container in the user's namespace and return a mount path. There is some path manipulation as this is not exactly where the files are located since `buildah unshare` creates the mount point in a different namespace which disappears.
+3. `buildah add` will add the `debian.tar` rootfs which we had created before using `debootstrap`.
+4. `buildah commit` will create an image containing this rootfs.
+5. `tern report --live` will generate an SBOM given the path to the rootfs. The rootfs doesn't have to be mounted at this point, although in order to show the resulting filesystem created by the storage driver in subsequent container uses, this is required for generating an accurate SBOM.
 
 ## Contributing
 

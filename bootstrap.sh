@@ -7,10 +7,10 @@
 # to demo building containers with SBoMs
 
 # Update repos and upgrade installed packages
-sudo apt-get update && sudo apt-get -y upgrade
+apt-get update && sudo apt-get -y upgrade
 
 # Install system dependencies
-sudo apt-get install -y python3 python3-pip python3-venv attr buildah podman git curl debootstrap
+apt-get install -y python3 python3-pip python3-venv attr buildah podman git curl debootstrap
 
 # Install go1.16.6
 curl -LO https://golang.org/dl/go1.16.6.src.tar.gz
@@ -27,18 +27,14 @@ pip3 install dist/tern*
 curl -LO https://github.com/oras-project/oras/releases/download/v0.12.0/oras_0.12.0_linux_amd64.tar.gz
 mkdir -p oras-install/
 tar -zxf oras_0.12.0_*.tar.gz -C oras-install/
-sudo mv oras-install/oras /usr/local/bin/
+mv oras-install/oras /usr/local/bin/
 rm -rf oras_0.12.0_*.tar.gz oras-install/
-
-# Spin up distribution (docker) registry
-podman pull registry:2.7.1
-podman run -d -p 5000:5000 --restart always --name registry registry:2.7.1
 
 # Add /home/vagrant/.local/bin and /usr/sbin to $PATH
 echo "export PATH=/home/vagrant/.local/bin:/usr/sbin:$PATH" >> /home/vagrant/.bashrc
 
 # Create a debian rootfs
 mkdir debian
-sudo debootstrap --variant=minbase stable debian http://deb.debian.org/debian/
-sudo tar cf debian.tar debian
+debootstrap --variant=minbase stable debian http://deb.debian.org/debian/
+tar cf debian.tar debian
 mv debian.tar containers-with-sboms
