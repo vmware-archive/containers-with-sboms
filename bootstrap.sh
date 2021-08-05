@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (c) 2021 VMware, Inc. All Rights Reserved.
+# Copyright (c) 2021 VMware, Inc.
 # SPDX-License-Identifier: BSD-2-Clause
 
 # This script bootstraps a debian/bullseye64 Vagrant box

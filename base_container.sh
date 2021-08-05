@@ -1,4 +1,7 @@
 #!/bin/sh
+#
+# Copyright (c) 2021 VMware, Inc.
+# SPDX-License-Identifier: BSD-2-Clause
 
 # This script will build a container image with an SBoM from scratch
 # On successful completion we should have a debian base image

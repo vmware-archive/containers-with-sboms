@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 #
-# Copyright (c) 2021 VMware, Inc. All Rights Reserved.
+# Copyright (c) 2021 VMware, Inc.
 # SPDX-License-Identifier: BSD-2-Clause
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
