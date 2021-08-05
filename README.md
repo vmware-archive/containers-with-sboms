@@ -24,13 +24,7 @@ $ cd containers-with-sboms
 $ ./base_container.sh
 ```
 
-This should create a container called `localhost:5000/debian:10` and a file called `sbom1`.
-
-Finally, you can publish the container and sbom:
-```
-$ buildah push --tls-verify=false localhost:5000/debian:10
-$ oras push localhost:5000/debian-sbom:10 sbom1
-```
+This should create a container called `localhost:5000/debian:10`, a file called `sbom1` and a corresponding config file called `sbom_config.json`, which is also pushed to the local registry. You should still be able to see the image when running `podman images` or `buildah images` and the sbom file and config file.
 
 ## Ingredients
 

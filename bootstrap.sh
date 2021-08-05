@@ -19,9 +19,10 @@ tar -xvf go1.16.6.src.tar.gz -C go-install/
 
 # Install tern
 git clone https://github.com/tern-tools/tern
-cd tern
+pushd tern
 python3 setup.py sdist
 pip3 install dist/tern*
+popd
 
 # Install oras
 curl -LO https://github.com/oras-project/oras/releases/download/v0.12.0/oras_0.12.0_linux_amd64.tar.gz

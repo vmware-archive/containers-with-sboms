@@ -25,3 +25,11 @@ tern report --live $realmnt -f spdxjson -o sbom1
 # Let's tag the image ready to be pushed
 buildah tag docker.io/library/debian:10 localhost:5000/debian:10
 echo tagged image: localhost:5000/debian:10
+echo sbom: sbom1
+# Create a sbom config
+echo {"sboms": [{"type": "SPDX", "describes": "debian:10", "host": "localhost:5000", "tool": "base_container.sh"}]} > sbom_config.json
+echo sbom config: sbom_config.json
+# Now push the image and the sbom
+buildah push --tls-verify=false localhost:5000/debian:10
+oras push localhost:5000/debian-sbom:10 --manifest-config sbom_config.json:application/vnd.vmware.sbom.config.v1+json sbom1:application/json
+echo ready.
