@@ -4,7 +4,7 @@ This project demonstrates how to use a series of tools to build container images
 
 ## Quick Start
 
-If you have Virtual Box and Vagrant installed, all you have to do is clone this project, cd into it, and run:
+We will use Virtual Box and Vagrant to spin up a Vagrant box (a VM) containing all the required ingredients installed. We just clone this project, cd into it and run:
 ```
 vagrant up
 vagrant ssh
@@ -12,13 +12,13 @@ vagrant ssh
 
 _Note: depending on how powerful your computer is, bringing up the Vagrant box can take a long time. Perhaps go make yourself a nice cup of tea and come back._
 
-Once you are in the vagrant box, spin up an instance of the distribution registry:
+Once we are in the vagrant box, we can spin up an instance of the distribution registry:
 ```
 $ podman pull registry:2.7.1
 $ podman run -d -p 5000:5000 --name registry registry:2.7.1
 ```
 
-You can then build the container and corresponding sbom:
+We then build the container and corresponding sbom:
 ```
 $ cd containers-with-sboms
 $ ./base_container.sh
