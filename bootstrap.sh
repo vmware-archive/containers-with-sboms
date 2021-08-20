@@ -37,5 +37,4 @@ echo "export PATH=/home/vagrant/.local/bin:/usr/sbin:$PATH" >> /home/vagrant/.ba
 # Create a debian rootfs
 mkdir debian
 debootstrap --variant=minbase stable debian http://deb.debian.org/debian/
-tar cf debian.tar debian
-mv debian.tar containers-with-sboms
+cd debian/ && tar cf ../containers-with-sboms/debian.tar .

@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 # This script will build a container image with an SBoM from scratch
-# On successful completion we should have a debian base image
-# and an SBOM file called "sbom1" 
+# On successful completion we should have a debian base image,
+# an SBOM file called "sbom1", and a config file called sbom_config.json
 
 # We create a container image using buildah
 echo starting...
@@ -16,15 +16,13 @@ buildah add $ctr debian.tar
 # We already know this is a debian 10 minbase rootfs so
 # we will name the image accordingly
 echo creating container image...
-img=$(buildah commit $ctr debian:10)
+img=$(buildah commit $ctr localhost:5000/debian:10)
 
 # The real directory where the data gets stored is somewhere else
-realmnt=$(echo $mnt | sed 's/merged/diff\/debian/g')
+realmnt=$(echo $mnt | sed 's/merged/diff/g')
 # We then provide this directory to tern
 tern report --live $realmnt -f spdxjson -o sbom1
-# Let's tag the image ready to be pushed
-buildah tag docker.io/library/debian:10 localhost:5000/debian:10
-echo tagged image: localhost:5000/debian:10
+echo image: localhost:5000/debian:10
 echo sbom: sbom1
 # Create a sbom config
 echo {"sboms": [{"type": "SPDX", "describes": "debian:10", "host": "localhost:5000", "tool": "base_container.sh"}]} > sbom_config.json
