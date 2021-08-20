@@ -24,7 +24,16 @@ $ cd containers-with-sboms
 $ ./base_container.sh
 ```
 
-This should create a container called `localhost:5000/debian:10`, a file called `sbom1` and a corresponding config file called `sbom_config.json`, which is also pushed to the local registry. You should still be able to see the image when running `podman images` or `buildah images` and the sbom file and config file.
+This should create a container called `localhost:5000/debian:10`, and a file called `sbom1`, which is also pushed to the local registry. You should still be able to see the image when running `podman images` or `buildah images` and the sbom file and config file.
+
+## Derived Containers
+
+Now that we have a container with an OS and a corresponding SBOM, we can create another container on top of this which includes the original SBOM:
+```
+$ ./derived_container.sh
+```
+
+This should create container called `localhost:500/python:3` and two files called `sbom1` and `sbom2`. These files can be deleted as we now have them on the registry.
 
 ## Ingredients
 

@@ -33,6 +33,9 @@ rm -rf oras_0.12.0_*.tar.gz oras-install/
 
 # Add /home/vagrant/.local/bin and /usr/sbin to $PATH
 echo "export PATH=/home/vagrant/.local/bin:/usr/sbin:$PATH" >> /home/vagrant/.bashrc
+# Switch to the "vfs" storage driver for buildah and podman so we can get a consistent mount point
+# for this version of buildah
+echo "export STORAGE_DRIVER=vfs" >> /home/vagrant/.bashrc
 
 # Create a debian rootfs
 mkdir debian
