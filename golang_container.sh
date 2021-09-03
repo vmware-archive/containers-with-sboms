@@ -13,11 +13,11 @@ ctr=$(buildah from localhost:5000/debian:10)
 echo building container...
 mnt=$(buildah unshare buildah mount $ctr)
 # Install golang
-buildah unshare buildah run $ctr /bin/bash -c "curl -LO https://golang.org/dl/go1.16.6.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.16.6.linux-amd64.tar.gz"
+buildah unshare buildah run $ctr /bin/bash -c "apt-get update && apt-get install -y wget && wget https://golang.org/dl/go1.16.6.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.16.6.linux-amd64.tar.gz && apt-get remove -y wget"
 # Create our golang image
 img=$(buildah commit $ctr localhost:5000/golang:1.16.6)
 
 # Upload the golang image with the corresponding sboms
 oras pull localhost:5000/debian-sbom:10 -a
 buildah push --tls-verify=false localhost:5000/golang:1.16.6
-oras push localhost:5000/golang-sbom:1.16.6 debian-sbom:application/json golang-sbom:application/json
+oras push localhost:5000/golang-sbom:1.16.6 debian-sbom:application/json golang1.16.6-sbom:application/json
