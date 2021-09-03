@@ -23,10 +23,10 @@ img=$(buildah commit $ctr localhost:5000/python:3)
 oras pull localhost:5000/debian-sbom:10 -a
 
 # We now provide this mount point to tern with the previous sbom
-tern report --live $mnt -f spdxjson -ctx sbom1 -o sbom2
+tern report --live $mnt -f spdxjson -ctx debian-sbom -o python-sbom
 
 # We can now push the python image and the corresponding sbom
 buildah push --tls-verify=false localhost:5000/python:3
 # We push both the sboms so we have one tag referencing all the sboms
 # related to this image
-oras push localhost:5000/python-sbom:3 sbom1:application/json sbom2:application/json
+oras push localhost:5000/python-sbom:3 debian-sbom:application/json python-sbom:application/json

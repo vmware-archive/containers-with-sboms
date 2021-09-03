@@ -17,14 +17,19 @@ Once we are in the vagrant box, we can spin up an instance of the distribution r
 $ podman pull registry:2.7.1
 $ podman run -d -p 5000:5000 --name registry registry:2.7.1
 ```
+Or run the convenience `podman_setup.sh` script:
+```
+$ cd containers-with-sboms
+$ ./podman_setup.sh
+```
 
 We then build the container and corresponding sbom:
 ```
-$ cd containers-with-sboms
+$ cd containers-with-sboms <-- (only if you are not already in the directory)
 $ ./base_container.sh
 ```
 
-This should create a container called `localhost:5000/debian:10`, and a file called `sbom1`, which is also pushed to the local registry. You should still be able to see the image when running `podman images` or `buildah images` and the sbom file and config file.
+This should create a container called `localhost:5000/debian:10`, and a file called `debian-sbom`, which is also pushed to the local registry. You should still be able to see the image when running `podman images` or `buildah images` and the sbom file.
 
 ## Derived Containers
 
@@ -33,7 +38,7 @@ Now that we have a container with an OS and a corresponding SBOM, we can create 
 $ ./derived_container.sh
 ```
 
-This should create container called `localhost:500/python:3` and two files called `sbom1` and `sbom2`. These files can be deleted as we now have them on the registry.
+This should create container called `localhost:500/python:3` and two files called `debian-sbom` and `python-sbom`. These files can be deleted as we now have them on the registry.
 
 ## Ingredients
 

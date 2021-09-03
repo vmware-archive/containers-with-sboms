@@ -18,10 +18,10 @@ buildah add $ctr debian.tar
 img=$(buildah commit $ctr localhost:5000/debian:10)
 # We then provide this directory to tern
 echo generating sbom...
-tern report --live $mnt -f spdxjson -o sbom1
+tern report --live $mnt -f spdxjson -o debian-sbom
 echo image: localhost:5000/debian:10
-echo sbom: sbom1
+echo sbom: debian-sbom
 # Now push the image and the sbom
 buildah push --tls-verify=false localhost:5000/debian:10
-oras push localhost:5000/debian-sbom:10 sbom1:application/json
+oras push localhost:5000/debian-sbom:10 debian-sbom:application/json
 echo ready.
