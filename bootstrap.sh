@@ -12,11 +12,6 @@ apt-get update && sudo apt-get -y upgrade
 # Install system dependencies
 apt-get install -y python3 python3-pip python3-venv attr buildah podman git curl debootstrap
 
-# Install go1.16.6
-curl -LO https://golang.org/dl/go1.16.6.src.tar.gz
-mkdir -p go-install
-tar -xvf go1.16.6.src.tar.gz -C go-install/
-
 # Install tern
 git clone https://github.com/tern-tools/tern
 pushd tern
