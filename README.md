@@ -40,6 +40,24 @@ $ ./derived_container.sh
 
 This should create container called `localhost:5000/python:3` and two files called `debian-sbom` and `python-sbom`. These files can be deleted as we now have them on the registry.
 
+## Signing Artifacts
+
+The SBOMs can be signed using `cosign` just like container images!
+
+First, generate a cosign key-pair
+```
+$ cosign generate-key-pair
+Enter password for private key: Enter again: 
+Private key written to cosign.key
+Public key written to cosign.pub
+```
+
+Now you can sign the SBOM image
+```
+cosign sign -key cosign.key localhost:5000/debian-sbom:10
+Pushing signature to: localhost:5000/debian-sbom:sha256-b284208b40a3886b7aac543312dce3aba2123602a013ce56c156276de9e838f4.sig
+```
+
 ## Multi-stage builds
 
 The nice thing about reusing SBOMs in this way is that even if the build container is gone, the SBOMs describing the containers remain and can be propagated with the deployment image. To demonstrate this, we first make a golang container using the base debian image and a golang binary:

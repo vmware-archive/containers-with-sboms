@@ -26,6 +26,10 @@ tar -zxf oras_0.12.0_*.tar.gz -C oras-install/
 mv oras-install/oras /usr/local/bin/
 rm -rf oras_0.12.0_*.tar.gz oras-install/
 
+# Install cosign
+curl -LO https://github.com/sigstore/cosign/releases/download/v1.1.0/cosign-linux-amd64
+mv cosign-linux-amd64 /usr/local/bin/cosign
+
 # Add /home/vagrant/.local/bin and /usr/sbin to $PATH
 echo "export PATH=/home/vagrant/.local/bin:/usr/sbin:$PATH" >> /home/vagrant/.bashrc
 # Switch to the "vfs" storage driver for buildah and podman so we can get a consistent mount point
