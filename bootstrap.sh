@@ -10,7 +10,7 @@
 apt-get update && sudo apt-get -y upgrade
 
 # Install system dependencies
-apt-get install -y python3 python3-pip python3-venv attr buildah podman git curl debootstrap
+apt-get install -y python3 python3-pip python3-venv attr buildah podman git curl debootstrap jq
 
 # Install tern
 git clone https://github.com/tern-tools/tern
