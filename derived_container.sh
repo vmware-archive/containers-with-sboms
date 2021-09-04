@@ -30,3 +30,7 @@ buildah push --tls-verify=false localhost:5000/python:3
 # We push both the sboms so we have one tag referencing all the sboms
 # related to this image
 oras push localhost:5000/python-sbom:3 debian-sbom:application/json python-sbom:application/json
+
+# Clean up all the containers
+buildah rm --all
+echo ready

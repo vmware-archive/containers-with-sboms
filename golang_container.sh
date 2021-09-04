@@ -10,10 +10,11 @@
 # We create a container image using buildah from the previously built debian:10 image
 echo starting...
 ctr=$(buildah from localhost:5000/debian:10)
+buildah unshare buildah mount $ctr
 echo building container...
-mnt=$(buildah unshare buildah mount $ctr)
 # Install golang
 buildah unshare buildah run $ctr /bin/bash -c "apt-get update && apt-get install -y wget && wget https://golang.org/dl/go1.16.6.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.16.6.linux-amd64.tar.gz && apt-get remove -y wget"
+buildah config --env PATH=/bin:/usr/local/go/bin $ctr
 # Create our golang image
 img=$(buildah commit $ctr localhost:5000/golang:1.16.6)
 
@@ -21,3 +22,7 @@ img=$(buildah commit $ctr localhost:5000/golang:1.16.6)
 oras pull localhost:5000/debian-sbom:10 -a
 buildah push --tls-verify=false localhost:5000/golang:1.16.6
 oras push localhost:5000/golang-sbom:1.16.6 debian-sbom:application/json golang1.16.6-sbom:application/json
+
+# Clean up all the containers
+buildah rm --all
+echo ready

@@ -24,4 +24,6 @@ echo sbom: debian-sbom
 # Now push the image and the sbom
 buildah push --tls-verify=false localhost:5000/debian:10
 oras push localhost:5000/debian-sbom:10 debian-sbom:application/json
+# clean up all the running containers
+buildah rm --all
 echo ready.
