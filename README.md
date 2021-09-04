@@ -38,7 +38,20 @@ Now that we have a container with an OS and a corresponding SBOM, we can create 
 $ ./derived_container.sh
 ```
 
-This should create container called `localhost:500/python:3` and two files called `debian-sbom` and `python-sbom`. These files can be deleted as we now have them on the registry.
+This should create container called `localhost:5000/python:3` and two files called `debian-sbom` and `python-sbom`. These files can be deleted as we now have them on the registry.
+
+## Multi-stage builds
+
+The nice thing about reusing SBOMs in this way is that even if the build container is gone, the SBOMs describing the containers remain and can be propagated with the deployment image. To demonstrate this, we first make a golang container using the base debian image and a golang binary:
+```
+$ ./golang_container.sh
+```
+
+We can then use this container to build our golang application:
+```
+$ ./hello_container.sh
+$ podman run localhost:5000/hello:1.0 hello
+```
 
 ## Ingredients
 
@@ -57,6 +70,12 @@ Overall, you will need the following tools:
 3. `buildah add` will add the `debian.tar` rootfs which we had created before using `debootstrap`.
 4. `buildah commit` will create an image containing this rootfs.
 5. `tern report --live` will generate an SBOM given the path to the rootfs. The rootfs doesn't have to be mounted at this point, although in order to show the resulting filesystem created by the storage driver in subsequent container uses, this is required for generating an accurate SBOM.
+
+## Next Steps
+
+We notice that there are some very basic UX needs in order to make this usable at a large scale:
+
+We need to keep track of all of the tags. This is currently the problem with many client tools which use registries to store artifacts along with container images. A working group on using [Reference Types](https://github.com/opencontainers/artifacts/pull/29) which link the artifacts back to the container image allows the reduction of tags as shown below
 
 ## Contributing
 
