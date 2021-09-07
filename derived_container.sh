@@ -27,9 +27,9 @@ buildah unshare buildah run $ctr /bin/bash -c "apt-get update && apt-get install
 img=$(buildah commit $ctr localhost:5000/python:3)
 
 # Let's now download our image's corresponding sbom
-cosign verify -key ~/cosign/cosign.pub localhost:5000/debian-sbom:10
+cosign verify -key ~/cosign/cosign.pub localhost:5000/debian:10-sbom
 echo verified sbom
-oras pull localhost:5000/debian-sbom:10 -a
+oras pull localhost:5000/debian:10-sbom -a
 
 # We now provide this mount point to tern with the previous sbom
 tern report --live $mnt -f spdxjson -ctx debian-sbom -o python-sbom
@@ -38,11 +38,11 @@ tern report --live $mnt -f spdxjson -ctx debian-sbom -o python-sbom
 buildah push --tls-verify=false localhost:5000/python:3
 # We push both the sboms so we have one tag referencing all the sboms
 # related to this image
-oras push localhost:5000/python-sbom:3 debian-sbom:application/json python-sbom:application/json
+oras push localhost:5000/python:3-sbom debian-sbom:application/json python-sbom:application/json
 
 # Let's sign our new artifacts
 cosign sign -key ~/cosign/cosign.key localhost:5000/python:3
-cosign sign -key ~/cosign/cosign.key localhost:5000/python-sbom:3
+cosign sign -key ~/cosign/cosign.key localhost:5000/python:3-sbom
 
 # Clean up all the containers
 buildah rm --all

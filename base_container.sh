@@ -26,14 +26,15 @@ echo sbom: debian-sbom
 
 # Now push the image and the sbom
 buildah push --tls-verify=false localhost:5000/debian:10
-oras push localhost:5000/debian-sbom:10 debian-sbom:application/json
+oras push localhost:5000/debian:10-sbom debian-sbom:application/json
 
 # Let's sign our artifacts
 # This assumes a cosign keypair has been generated and exists
 # in a directory called "cosign"
 cosign sign -key ~/cosign/cosign.key localhost:5000/debian:10
-cosign sign -key ~/cosign/cosign.key localhost:5000/debian-sbom:10
+cosign sign -key ~/cosign/cosign.key localhost:5000/debian:10-sbom
 
 # clean up all the running containers
 buildah rm --all
+rm debian-sbom
 echo ready.
