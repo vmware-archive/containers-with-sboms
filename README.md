@@ -50,6 +50,7 @@ $ cosign generate-key-pair
 Enter password for private key: Enter again: 
 Private key written to cosign.key
 Public key written to cosign.pub
+$ cosign init
 ```
 
 Now you can sign the SBOM image
