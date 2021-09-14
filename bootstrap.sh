@@ -39,5 +39,5 @@ echo "export STORAGE_DRIVER=vfs" >> /home/vagrant/.bashrc
 
 # Create a debian rootfs
 mkdir debian
-debootstrap --variant=minbase stable debian http://deb.debian.org/debian/
+debootstrap --variant=minbase stable debian http://snapshot.debian.org/archive/debian/20210914T205414Z
 cd debian/ && tar cf ../containers-with-sboms/debian.tar .

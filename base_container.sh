@@ -14,25 +14,25 @@ echo creating container image...
 mnt=$(buildah unshare buildah mount $ctr)
 buildah add $ctr debian.tar
 
-# We already know this is a debian 10 minbase rootfs so
+# We use a specific debian snapshot
 # we will name the image accordingly
-img=$(buildah commit $ctr localhost:5000/debian:10)
+img=$(buildah commit $ctr localhost:5000/debian:20210914T205414Z)
 
 # We then provide this directory to tern
 echo generating sbom...
 tern report --live $mnt -f spdxjson -o debian-sbom
-echo image: localhost:5000/debian:10
+echo image: localhost:5000/debian:20210914T205414Z
 echo sbom: debian-sbom
 
 # Now push the image and the sbom
-buildah push --tls-verify=false localhost:5000/debian:10
-oras push localhost:5000/debian:10-sbom debian-sbom:application/json
+buildah push --tls-verify=false localhost:5000/debian:20210914T205414Z
+oras push localhost:5000/debian:20210914T205414Z-sbom debian-sbom:application/json
 
 # Let's sign our artifacts
 # This assumes a cosign keypair has been generated and exists
 # in a directory called "cosign"
-cosign sign -key ~/cosign/cosign.key localhost:5000/debian:10
-cosign sign -key ~/cosign/cosign.key localhost:5000/debian:10-sbom
+cosign sign -key ~/cosign/cosign.key localhost:5000/debian:20210914T205414Z
+cosign sign -key ~/cosign/cosign.key localhost:5000/debian:20210914T205414Z-sbom
 
 # clean up all the running containers
 buildah rm --all

@@ -12,12 +12,12 @@
 
 echo starting...
 # let's verify if that image is signed:
-cosign verify -key ~/cosign/cosign.pub localhost:5000/debian:10
+cosign verify -key ~/cosign/cosign.pub localhost:5000/debian:20210914T205414Z
 echo verified image
 # Assuming this image has been signed, let's start building a
 # container
 echo building container...
-ctr=$(buildah from localhost:5000/debian:10)
+ctr=$(buildah from localhost:5000/debian:20210914T205414Z)
 mnt=$(buildah unshare buildah mount $ctr)
 
 # Let's install some stuff
@@ -27,9 +27,9 @@ buildah unshare buildah run $ctr /bin/bash -c "apt-get update && apt-get install
 img=$(buildah commit $ctr localhost:5000/python:3)
 
 # Let's now download our image's corresponding sbom
-cosign verify -key ~/cosign/cosign.pub localhost:5000/debian:10-sbom
+cosign verify -key ~/cosign/cosign.pub localhost:5000/debian:20210914T205414Z-sbom
 echo verified sbom
-oras pull localhost:5000/debian:10-sbom -a
+oras pull localhost:5000/debian:20210914T205414Z-sbom -a
 
 # We now provide this mount point to tern with the previous sbom
 tern report --live $mnt -f spdxjson -ctx debian-sbom -o python-sbom
